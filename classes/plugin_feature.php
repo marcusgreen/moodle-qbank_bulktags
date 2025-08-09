@@ -32,9 +32,9 @@ class plugin_feature extends plugin_features_base {
      * @param null|view $qbank
      * @return bulk_tag_action[]
      */
-    public function get_bulk_actions(?view $qbank): array {
+    public function get_bulk_actions(?view $qbank = null) {
         return [
-            new bulk_tag_action($qbank),
+            new bulk_tag_action(),
         ];
     }
 }

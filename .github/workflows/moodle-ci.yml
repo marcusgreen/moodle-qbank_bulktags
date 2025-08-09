@@ -31,11 +31,8 @@ jobs:
       matrix:
         include:
           - php: '8.3'
-            moodle-branch: 'MOODLE_500_STABLE'
+            moodle-branch: 'MOODLE_405_STABLE'
             database: 'mariadb'
-          # - php: '8.3'
-          #   moodle-branch: 'main'
-          #   database: 'pgsql'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
