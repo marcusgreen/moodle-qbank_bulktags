@@ -1,5 +1,5 @@
 @qbank @qbank_bulktags @qbank_bulktags_enable_disable
-Feature: Use the qbank plugin manager page for bulkmove
+Feature: Use the qbank plugin manager page for bulktags
     In order to check the plugin behaviour with enable and disable
 
   Background:
