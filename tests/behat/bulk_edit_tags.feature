@@ -37,7 +37,3 @@ Feature: Testing multiple_tags in qbank_bulktags
     And I should see "truefalse_qtype"
     And I should see "Tag1"
     And I should see "Tag1"
-
-
-
-
