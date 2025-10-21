@@ -1,10 +1,13 @@
+### Version 1.2 of Moodle Question Bank Bulktags Oct 2025
+Updated behat tests to work with Moodle 5.1 and confirmed compatibility
+by running automated tests.
+
 ### Version 1.1 of Moodle Question Bank Bulktags Aug 2025
 Added an "AI Suggestions" feature which is disabled by default.
 When enabled it adds a new button labeled "Get AI Suggestions" and
 a count text field. If an external AI system is configured it will
 return suggested tags. To read more see
 https://github.com/marcusgreen/moodle-qbank_bulktags/wiki/AI-Suggestions
-
 
 ### Version 1.0 of Moodle Question Bank Bulktags Aug 2025
 

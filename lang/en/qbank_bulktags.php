@@ -22,13 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['bulktags'] = 'Bulk tags';
-$string['bulktagsheader'] = 'Bulk update question tags';
-$string['cancel_bulk_tags'] = 'Cancel bulk tags';
-$string['close'] = 'Close';
-$string['editbulkaction'] = 'Bulk tag questions';
-$string['error:no_tags_selected'] = 'No tags selected';
-$string['findtext'] = 'Find text';
 $string['backends'] = "AI back end systems";
 $string['backends_text'] = '
 <ul>
@@ -37,11 +30,17 @@ $string['backends_text'] = '
   <li>Tool AI System is from <a href="https://github.com/marcusgreen/moodle-tool_aiconnect">https://github.com/marcusgreen/moodle-tool_aiconnect</a></li>
 </ul>
 ';
+$string['bulktags'] = 'Bulk tags';
+$string['bulktagsheader'] = 'Bulk update question tags';
+$string['cancel_bulk_tags'] = 'Cancel bulk tags';
+$string['close'] = 'Close';
 $string['coreaisubsystem'] = 'Core AI Subsystem';
 $string['count'] = 'Count';
+$string['editbulkaction'] = 'Bulk tag questions';
 $string['enable_ai_suggestions'] = 'Enable AI suggestions';
 $string['enable_ai_suggestions_description'] = 'An additional button will appear on th tagging form. When clicked it will loop through the selected questions questiontext and ask for suggested tags from the external LLM';
-$string['error:no_tags_selected'] = 'No tags selectd';
+$string['error:no_tags_selected'] = 'No tags selected';
+$string['findtext'] = 'Find text';
 $string['getaisuggestions_button'] = 'Get AI Suggestions';
 $string['localaimanager'] = 'Local AI Manager';
 $string['pluginname'] = 'Bulk tag questions';
