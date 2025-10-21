@@ -22,6 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['bulktags'] = 'Bulk tags';
+$string['bulktagsheader'] = 'Bulk update question tags';
+$string['cancel_bulk_tags'] = 'Cancel bulk tags';
+$string['close'] = 'Close';
+$string['editbulkaction'] = 'Bulk tag questions';
+$string['error:no_tags_selected'] = 'No tags selected';
+$string['findtext'] = 'Find text';
 $string['backends'] = "AI back end systems";
 $string['backends_text'] = '
 <ul>
