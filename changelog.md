@@ -2,6 +2,11 @@
 Updated behat tests to work with Moodle 5.1 and confirmed compatibility
 by running automated tests.
 
+Thanks to Germán Valero for creating an a fix for a spelling error
+in the English language strings
+.
+https://github.com/marcusgreen/moodle-qbank_bulktags/pull/2
+
 ### Version 1.1 of Moodle Question Bank Bulktags Aug 2025
 Added an "AI Suggestions" feature which is disabled by default.
 When enabled it adds a new button labeled "Get AI Suggestions" and
