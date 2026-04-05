@@ -1,3 +1,6 @@
+### Version 1.3 of Moodle Question Bank Bulktags Apr 2026
+Compatibility with Moodle 5.2
+
 ### Version 1.2 of Moodle Question Bank Bulktags Oct 2025
 Updated behat tests to work with Moodle 5.1 and confirmed compatibility
 by running automated tests.
