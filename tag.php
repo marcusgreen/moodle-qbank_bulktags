@@ -46,10 +46,10 @@ if ($cmid) {
     [$module, $cm] = get_module_from_cmid($cmid);
 
     require_login($cm->course, false, $cm);
-    $thiscontext = context_system::instance();
+    $thiscontext = context_module::instance($cmid);
 } else if ($courseid) {
     require_login($courseid, false);
-    $thiscontext = context_system::instance();
+    $thiscontext = context_course::instance($courseid);
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
