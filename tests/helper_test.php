@@ -44,7 +44,7 @@ final class helper_test extends advanced_testcase {
      * @var \context_course
      */
     public $coursecontext;
-    
+
     public function setUp(): void {
         parent::setUp();
         $category = $this->getDataGenerator()->create_category();
@@ -97,7 +97,7 @@ final class helper_test extends advanced_testcase {
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question2->id);
         $this->assertNotEmpty($updatedtags);
     }
-    
+
     /**
      * In merge mode (replacetags = 0) each selected question must only receive
      * its own existing tags merged with the submitted tags, never the existing
