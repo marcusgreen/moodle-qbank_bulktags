@@ -43,10 +43,11 @@ class helper {
      */
     public static function bulk_tag_questions(\stdClass $fromform): void {
         global $DB;
-        $tags = $fromform->formtags;
+        $formtags = $fromform->formtags;
         if ($fromform->selectedquestions) {
             $questions = self::get_selected_questions($fromform);
             foreach ($questions as $question) {
+                $tags = $formtags;
                 if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
                     foreach ($existingtags as $tag) {

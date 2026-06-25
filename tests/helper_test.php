@@ -38,11 +38,19 @@ final class helper_test extends advanced_testcase {
      * @var $question2 \stdClass
      */
     public $question2;
+
+    /**
+     * Course context the test questions live in, used to attach tags.
+     * @var \context_course
+     */
+    public $coursecontext;
+
     public function setUp(): void {
         parent::setUp();
         $category = $this->getDataGenerator()->create_category();
         $course = $this->getDataGenerator()->create_course(['category' => $category->id]);
         $coursecontext = \context_course::instance($course->id);
+        $this->coursecontext = $coursecontext;
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $qcat = $generator->create_question_category(['contextid' => $coursecontext->id]);
         $this->question1 = $generator->create_question('multichoice', null, ['category' => $qcat->id]);
@@ -88,6 +96,42 @@ final class helper_test extends advanced_testcase {
 
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question2->id);
         $this->assertNotEmpty($updatedtags);
+    }
+
+    /**
+     * In merge mode (replacetags = 0) each selected question must only receive
+     * its own existing tags merged with the submitted tags, never the existing
+     * tags of the other selected questions. Regression test for tag
+     * accumulation across the question loop.
+     *
+     * @covers \qbank_bulktags\helper::bulk_tag_questions
+     */
+    public function test_bulk_tag_questions_no_cross_contamination(): void {
+        $this->resetAfterTest();
+
+        // Give each question a distinct existing tag.
+        \core_tag_tag::set_item_tags('core_question', 'question', $this->question1->id,
+            $this->coursecontext, ['alpha']);
+        \core_tag_tag::set_item_tags('core_question', 'question', $this->question2->id,
+            $this->coursecontext, ['beta']);
+
+        // Add a shared tag to both questions without replacing existing tags.
+        $fromform = (object) [
+            'selectedquestions' => implode(',', [$this->question1->id, $this->question2->id]),
+            'formtags' => ['shared'],
+            'replacetags' => 0,
+        ];
+        helper::bulk_tag_questions($fromform);
+
+        $q1tags = array_values(\core_tag_tag::get_item_tags_array('core_question', 'question', $this->question1->id));
+        $q2tags = array_values(\core_tag_tag::get_item_tags_array('core_question', 'question', $this->question2->id));
+        sort($q1tags);
+        sort($q2tags);
+
+        // Question 1 keeps only its own tag plus the shared one (not 'beta').
+        $this->assertEquals(['alpha', 'shared'], $q1tags);
+        // Question 2 keeps only its own tag plus the shared one (not 'alpha').
+        $this->assertEquals(['beta', 'shared'], $q2tags);
     }
 
     /**
