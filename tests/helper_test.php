@@ -110,10 +110,20 @@ final class helper_test extends advanced_testcase {
         $this->resetAfterTest();
 
         // Give each question a distinct existing tag.
-        \core_tag_tag::set_item_tags('core_question', 'question', $this->question1->id,
-            $this->coursecontext, ['alpha']);
-        \core_tag_tag::set_item_tags('core_question', 'question', $this->question2->id,
-            $this->coursecontext, ['beta']);
+        \core_tag_tag::set_item_tags(
+            'core_question',
+            'question',
+            $this->question1->id,
+            $this->coursecontext,
+            ['alpha']
+        );
+        \core_tag_tag::set_item_tags(
+            'core_question',
+            'question',
+            $this->question2->id,
+            $this->coursecontext,
+            ['beta']
+        );
 
         // Add a shared tag to both questions without replacing existing tags.
         $fromform = (object) [

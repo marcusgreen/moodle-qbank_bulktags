@@ -1,3 +1,15 @@
+### Version 1.3.1 of Moodle Question Bank Bulktags Jun 2026
+Fixed a bug where bulk-tagging multiple questions with "Replace
+existing tags" unchecked (merge mode) leaked tags between questions.
+Each question's existing tags were appended to one shared list, so
+later questions accumulated tags from earlier ones in the batch.
+The per-question tag list is now reset inside the loop, and a
+regression test guards against re-occurrence.
+
+Thanks to erno774 for the very detailed explanation of the issue and the code
+fix and to Chun Ting Wong for reporting it on the plugin directory page.
+https://github.com/marcusgreen/moodle-qbank_bulktags/pull/6
+
 ### Version 1.3 of Moodle Question Bank Bulktags Apr 2026
 Compatibility with Moodle 5.2
 
