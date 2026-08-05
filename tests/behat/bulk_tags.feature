@@ -12,9 +12,6 @@ Feature: Use the qbank plugin manager page for bulkmove
     And the following "course enrolments" exist:
           | user     | course | role           |
           | teacher1 | C1     | editingteacher |
-    And the following "course enrolments" exist:
-          | user     | course | role           |
-          | teacher1 | C1     | editingteacher |
     And the following "activities" exist:
           | activity | name            | course | idnumber |
           | quiz     | Test quiz       | C1     | quiz1    |
@@ -47,3 +44,19 @@ Feature: Use the qbank plugin manager page for bulkmove
     And I click on "First question" "checkbox"
     And I click on "With selected" "button"
     And I should see question bulk action "bulktags"
+
+  @javascript
+  Scenario: Teacher can bulk tag questions in quiz question bank
+    Given I log in as "teacher1"
+    And I am on the "Test quiz" "mod_quiz > question bank" page
+    And I set the field "Category" to "Test questions 1 (1)"
+    And I click on "Apply filters" "button"
+    And I click on "First question" "checkbox"
+    And I click on "With selected" "button"
+    And I click on question bulk action "bulktags"
+    And I set the following fields to these values:
+          | Tags | Tag1 |
+    And I press "Save changes"
+    And I choose "Edit question" action for "First question" in the question bank
+    And I expand all fieldsets
+    And I should see "Tag1"
