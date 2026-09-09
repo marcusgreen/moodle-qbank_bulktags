@@ -75,7 +75,14 @@ class helper {
      */
     public static function get_selected_questions(\stdClass $fromform): array {
         global $DB;
-        if ($questionids = explode(',', $fromform->selectedquestions)) {
+        // Discard anything that is not a question id. An empty selectedquestions field would
+        // otherwise leave a single empty string in the array, which some databases reject when
+        // it is compared against the integer q.id column.
+        $questionids = array_filter(
+            array_map('trim', explode(',', (string) $fromform->selectedquestions)),
+            static fn($questionid) => $questionid !== '' && ctype_digit($questionid),
+        );
+        if ($questionids) {
             [$usql, $params] = $DB->get_in_or_equal($questionids);
             // SQL query to retrieve details of selected questions including context ID.
             $sql = "SELECT q.*, c.contextid
