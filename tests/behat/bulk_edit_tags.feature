@@ -21,7 +21,7 @@ Feature: Testing multiple_tags in qbank_bulktags
           | Schema | Course name       | Bulk Tags Test |
           | Schema | Course short name | BulkTagsTest   |
             #And I am on the "Course 1" course page logged in as "admin"
-    And I am on the "Bulk tags test" "core_question > course question bank" page logged in as "admin"
+    And I am on the "Bulk Tags Test" "core_question > course question bank" page logged in as "admin"
     And I set the field "Category" to "Default for Bulktags Test (2)"
     And I click on "Apply filters" "button"
     And I should see "First question"
