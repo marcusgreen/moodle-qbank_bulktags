@@ -18,7 +18,7 @@ Feature: Testing multiple_tags in qbank_bulktags
     And I upload "question/bank/bulktags/tests/fixtures/bulktags_test.mbz" file to "Files" filemanager
     And I press "Save changes"
     And I restore "bulktags_test.mbz" backup into a new course using this options:
-          | Schema | Course name       | Bulk Tags Test |
+          | Schema | Course name       | Bulk tags test |
           | Schema | Course short name | BulkTagsTest   |
             #And I am on the "Course 1" course page logged in as "admin"
     And I am on the "Bulk tags test" "core_question > course question bank" page logged in as "admin"
