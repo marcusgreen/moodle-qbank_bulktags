@@ -145,6 +145,35 @@ final class helper_test extends advanced_testcase {
     }
 
     /**
+     * When replacetags is enabled and no tags are submitted, all existing
+     * tags on the selected questions should be removed. Regression test for
+     * the "delete all tags" feature request.
+     *
+     * @covers \qbank_bulktags\helper::bulk_tag_questions
+     */
+    public function test_bulk_tag_questions_replace_with_no_tags_clears_tags(): void {
+        $this->resetAfterTest();
+
+        \core_tag_tag::set_item_tags(
+            'core_question',
+            'question',
+            $this->question1->id,
+            $this->coursecontext,
+            ['alpha', 'beta']
+        );
+
+        $fromform = (object) [
+            'selectedquestions' => (string) $this->question1->id,
+            'formtags' => [],
+            'replacetags' => 1,
+        ];
+        helper::bulk_tag_questions($fromform);
+
+        $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
+        $this->assertEmpty($updatedtags);
+    }
+
+    /**
      * Test get_selected_questions with empty selectedquestions.
      *
      * @covers \qbank_bulktags\helper::get_selected_questions
