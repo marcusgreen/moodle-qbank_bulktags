@@ -154,11 +154,13 @@ final class helper_test extends advanced_testcase {
     public function test_bulk_tag_questions_replace_with_no_tags_clears_tags(): void {
         $this->resetAfterTest();
 
+        $questions = helper::get_selected_questions((object) ['selectedquestions' => (string) $this->question1->id]);
+        $question = reset($questions);
         \core_tag_tag::set_item_tags(
             'core_question',
             'question',
             $this->question1->id,
-            $this->coursecontext,
+            \context::instance_by_id($question->contextid),
             ['alpha', 'beta']
         );
 

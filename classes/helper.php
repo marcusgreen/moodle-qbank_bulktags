@@ -75,7 +75,8 @@ class helper {
      */
     public static function get_selected_questions(\stdClass $fromform): array {
         global $DB;
-        if ($questionids = explode(',', $fromform->selectedquestions)) {
+        $questionids = array_filter(explode(',', $fromform->selectedquestions), 'strlen');
+        if ($questionids) {
             [$usql, $params] = $DB->get_in_or_equal($questionids);
             // SQL query to retrieve details of selected questions including context ID.
             $sql = "SELECT q.*, c.contextid
