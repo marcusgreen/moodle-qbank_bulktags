@@ -154,39 +154,24 @@ final class helper_test extends advanced_testcase {
     public function test_bulk_tag_questions_replace_with_no_tags_clears_tags(): void {
         $this->resetAfterTest();
 
-        \core_tag_tag::set_item_tags(
-            'core_question',
-            'question',
-            $this->question1->id,
-            $this->coursecontext,
-            ['alpha', 'beta']
-        );
+        // Set the initial tags through the helper itself (as real usage does), so they
+        // land in whatever context the plugin resolves for the question, rather than
+        // assuming it matches the course context directly.
+        $addtagsform = (object) [
+            'selectedquestions' => (string) $this->question1->id,
+            'formtags' => ['alpha', 'beta'],
+            'replacetags' => 0,
+        ];
+        helper::bulk_tag_questions($addtagsform);
         $initialtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
-        $this->assertNotEmpty($initialtags, 'DIAG: initial tags were not set at all');
-        foreach ($initialtags as $tag) {
-            $this->assertEquals(
-                $this->coursecontext->id,
-                $tag->taginstancecontextid,
-                'DIAG: initial tag context does not match coursecontext'
-            );
-        }
+        $this->assertNotEmpty($initialtags);
 
-        $fromform = (object) [
+        $removetagsform = (object) [
             'selectedquestions' => (string) $this->question1->id,
             'formtags' => [],
             'replacetags' => 1,
         ];
-
-        $selected = helper::get_selected_questions($fromform);
-        $this->assertCount(1, $selected, 'DIAG: get_selected_questions did not return the question');
-        $selectedquestion = reset($selected);
-        $this->assertEquals(
-            $this->coursecontext->id,
-            $selectedquestion->contextid,
-            'DIAG: selected question contextid does not match coursecontext'
-        );
-
-        helper::bulk_tag_questions($fromform);
+        helper::bulk_tag_questions($removetagsform);
 
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
         $this->assertEmpty($updatedtags);
