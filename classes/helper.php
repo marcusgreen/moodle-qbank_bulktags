@@ -54,12 +54,16 @@ class helper {
                         $tags[] = $tag->get_display_name();
                     }
                 }
+                $context = \context::instance_by_id($question->contextid);
                 if ($fromform->replacetags && empty($tags)) {
                     // An empty tag list combined with "replace" means "remove all tags".
-                    \core_tag_tag::remove_all_item_tags('core_question', 'question', $question->id);
+                    // core_tag_tag::remove_all_item_tags() can't be used here since it always
+                    // passes the system context, not the question context the tags were set in,
+                    // so tag instances in multi-context areas like questions would not be found.
+                    // See \qbank_tagquestion\event\question_deleted_observer::delete_question_tags().
+                    \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, null);
                     continue;
                 }
-                $context = \context::instance_by_id($question->contextid);
                 \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
         }
