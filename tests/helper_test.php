@@ -161,12 +161,31 @@ final class helper_test extends advanced_testcase {
             $this->coursecontext,
             ['alpha', 'beta']
         );
+        $initialtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
+        $this->assertNotEmpty($initialtags, 'DIAG: initial tags were not set at all');
+        foreach ($initialtags as $tag) {
+            $this->assertEquals(
+                $this->coursecontext->id,
+                $tag->taginstancecontextid,
+                'DIAG: initial tag context does not match coursecontext'
+            );
+        }
 
         $fromform = (object) [
             'selectedquestions' => (string) $this->question1->id,
             'formtags' => [],
             'replacetags' => 1,
         ];
+
+        $selected = helper::get_selected_questions($fromform);
+        $this->assertCount(1, $selected, 'DIAG: get_selected_questions did not return the question');
+        $selectedquestion = reset($selected);
+        $this->assertEquals(
+            $this->coursecontext->id,
+            $selectedquestion->contextid,
+            'DIAG: selected question contextid does not match coursecontext'
+        );
+
         helper::bulk_tag_questions($fromform);
 
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
