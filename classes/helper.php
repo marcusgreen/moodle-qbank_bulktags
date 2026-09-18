@@ -30,8 +30,8 @@ class helper {
      * Processes comma-separated question IDs and applies the specified
      * tags to each question. When replacetags is false, existing tags
      * are preserved and merged with new ones. When true, existing tags
-     * are completely replaced. Uses the question's context for proper
-     * tag association.
+     * are completely replaced, and an empty tag list removes all tags.
+     * Uses the question's context for proper tag association.
      *
      * @param \stdClass $fromform
      *        The form data containing:
@@ -53,6 +53,11 @@ class helper {
                     foreach ($existingtags as $tag) {
                         $tags[] = $tag->get_display_name();
                     }
+                }
+                if ($fromform->replacetags && empty($tags)) {
+                    // An empty tag list combined with "replace" means "remove all tags".
+                    \core_tag_tag::remove_all_item_tags('core_question', 'question', $question->id);
+                    continue;
                 }
                 $context = \context::instance_by_id($question->contextid);
                 \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
