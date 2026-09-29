@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <g transform="translate(-11 -9.5) scale(6)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Tag filled white with Moodle brand blue outline -->
+    <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="#ffffff" stroke="#0f6cbf" stroke-width="1.1"/>
+
+    <!-- Tag hole in red -->
+    <circle cx="8.2" cy="8.2" r="2" fill="#ca3120"/>
+  </g>
+</svg>
