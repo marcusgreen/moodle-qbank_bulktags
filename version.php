@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qbank_bulktags';
-$plugin->version   = 2026060100;
+$plugin->version   = 2026100100;
 $plugin->requires = 2025031400;  // Moodle 5.0.
-$plugin->release = '1.3.1';
+$plugin->release = '1.3.2';
 $plugin->supported = [500, 502];
 $plugin->maturity  = MATURITY_STABLE;
