@@ -1,3 +1,13 @@
+### Unreleased
+Fixed a bug where it was not possible to remove all tags from the
+selected questions. Choosing "Replace tags" and submitting the form
+with no tags entered was blocked with a "No tags selected" error.
+The form now allows an empty tag list when "Replace tags" is checked,
+which clears all existing tags from the selected questions.
+
+Thanks to WernerKKN for reporting the issue.
+https://github.com/marcusgreen/moodle-qbank_bulktags/issues/8
+
 ### Version 1.3.1 of Moodle Question Bank Bulktags Jun 2026
 Fixed a bug where bulk-tagging multiple questions with "Replace
 existing tags" unchecked (merge mode) leaked tags between questions.
