@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="512" height="512">
+  <rect width="128" height="128" fill="#0f6cbf"/>
+  <g transform="translate(64 64) scale(3.8) translate(-15.5 -9.25)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Three stacked tags, back to front -->
+    <g transform="translate(6 -6)">
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="none" stroke="#0f6cbf" stroke-width="2.8"/>
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.1" opacity="0.7"/>
+    </g>
+    <g transform="translate(3 -3)">
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="none" stroke="#0f6cbf" stroke-width="2.8"/>
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.1" opacity="0.85"/>
+    </g>
+    <g transform="translate(0 0)">
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="none" stroke="#0f6cbf" stroke-width="2.8"/>
+      <path d="M4 4H13L21 12L12.5 20.5L4 12Z" fill="#ffffff" stroke="#ffffff" stroke-width="1.1" opacity="1"/>
+    </g>
+    <!-- Tag hole in red -->
+    <circle cx="8.2" cy="8.2" r="2" fill="#ca3120"/>
+  </g>
+</svg>
