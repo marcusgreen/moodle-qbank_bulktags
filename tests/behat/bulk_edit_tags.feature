@@ -27,7 +27,7 @@ Feature: Testing multiple_tags in qbank_bulktags
     And I should see "First question"
     And I click on "First question" "checkbox"
     And I click on "Second question" "checkbox"
-    And I click on "With selected" "button"
+    And I open the question bulk actions menu
     And I click on question bulk action "bulktags"
     And I set the following fields to these values:
           | Tags | Tag1, Tag2 |

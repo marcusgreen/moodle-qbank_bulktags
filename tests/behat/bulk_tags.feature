@@ -34,7 +34,7 @@ Feature: Use the qbank plugin manager page for bulkmove
     And I set the field "Category" to "Test questions 1 (1)"
     And I click on "Apply filters" "button"
     And I click on "First question" "checkbox"
-    And I click on "With selected" "button"
+    And I open the question bulk actions menu
     Then I should not see question bulk action "bulktags"
     And I navigate to "Plugins > Question bank plugins > Manage question bank plugins" in site administration
     And I click on "Enable" "link" in the "Bulk tag questions" "table_row"
@@ -42,7 +42,7 @@ Feature: Use the qbank plugin manager page for bulkmove
     And I set the field "Category" to "Test questions 1 (1)"
     And I click on "Apply filters" "button"
     And I click on "First question" "checkbox"
-    And I click on "With selected" "button"
+    And I open the question bulk actions menu
     And I should see question bulk action "bulktags"
 
   @javascript
@@ -52,7 +52,7 @@ Feature: Use the qbank plugin manager page for bulkmove
     And I set the field "Category" to "Test questions 1 (1)"
     And I click on "Apply filters" "button"
     And I click on "First question" "checkbox"
-    And I click on "With selected" "button"
+    And I open the question bulk actions menu
     And I click on question bulk action "bulktags"
     And I set the following fields to these values:
           | Tags | Tag1 |

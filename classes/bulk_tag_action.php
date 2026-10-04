@@ -70,4 +70,13 @@ class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
             'moodle/question:editall',
         ];
     }
+
+    /**
+     * Return the icon identifier for the action (used from Moodle 5.3).
+     *
+     * @return string
+     */
+    public function get_action_icon(): string {
+        return 't/tags';
+    }
 }
