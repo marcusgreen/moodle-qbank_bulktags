@@ -1,4 +1,6 @@
-### Unreleased
+### Version 1.4 of Moodle Question Bank Bulktags Oct 2026
+Compatibility with Moodle 5.3. CI now tests against MOODLE_503_STABLE.
+
 Fixed a bug where it was not possible to remove all tags from the
 selected questions. Choosing "Replace tags" and submitting the form
 with no tags entered was blocked with a "No tags selected" error.
