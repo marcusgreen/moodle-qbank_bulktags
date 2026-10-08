@@ -1,6 +1,11 @@
 ### Version 1.4 of Moodle Question Bank Bulktags Oct 2026
 Compatibility with Moodle 5.3. CI now tests against MOODLE_503_STABLE.
 
+Moodle 5.3 replaced the "With selected" dropdown in the question bank
+with always-visible bulk action buttons. Bulk tags now provides a tag
+icon for the new button layout, and the behat tests work with both the
+old dropdown (5.0-5.2) and the new buttons (5.3).
+
 Fixed a bug where it was not possible to remove all tags from the
 selected questions. Choosing "Replace tags" and submitting the form
 with no tags entered was blocked with a "No tags selected" error.
