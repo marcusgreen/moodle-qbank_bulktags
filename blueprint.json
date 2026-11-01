@@ -1,0 +1,75 @@
+{
+  "$schema": "https://ateeducacion.github.io/moodle-playground/assets/blueprints/blueprint-schema.json",
+  "preferredVersions": {
+    "php": "8.3",
+    "moodle": "5.0"
+  },
+  "landingPage": "/question/edit.php?cmid=1",
+  "constants": {
+    "ADMIN_USER": "admin",
+    "ADMIN_PASS": "test",
+    "ADMIN_EMAIL": "admin@example.com"
+  },
+  "steps": [
+    {
+      "step": "installMoodle",
+      "options": {
+        "adminUser": "{{ADMIN_USER}}",
+        "adminPass": "{{ADMIN_PASS}}",
+        "adminEmail": "{{ADMIN_EMAIL}}",
+        "siteName": "Bulk Tags Question Bank Demo",
+        "locale": "en",
+        "timezone": "Europe/London"
+      }
+    },
+    {
+      "step": "login",
+      "username": "{{ADMIN_USER}}"
+    },
+    {
+      "step": "installMoodlePlugin",
+      "pluginType": "qbank",
+      "pluginName": "bulktags",
+      "url": "https://github.com/marcusgreen/moodle-qbank_bulktags/archive/refs/heads/main.zip"
+    },
+    {
+      "step": "createCategory",
+      "name": "Test Courses"
+    },
+    {
+      "step": "createCourse",
+      "fullname": "Bulk Tags Demo Course",
+      "shortname": "BULKTAGS01",
+      "category": "Test Courses",
+      "summary": "Demo course with a question bank of sample questions, some already tagged, ready for trying out bulk tagging."
+    },
+    {
+      "step": "enrolUser",
+      "username": "{{ADMIN_USER}}",
+      "course": "BULKTAGS01",
+      "role": "editingteacher"
+    },
+    {
+      "step": "addModule",
+      "module": "qbank",
+      "course": "BULKTAGS01",
+      "section": 0,
+      "name": "Bulk Tags Question Bank",
+      "intro": "<p>Select questions, then choose <strong>Bulk tags</strong> from the bulk actions to add or replace their tags in one go.</p>",
+      "type": "standard",
+      "visible": 1
+    },
+    {
+      "step": "runPhpCode",
+      "code": "if (!defined('CLI_SCRIPT')) { define('CLI_SCRIPT', true); }\nrequire('/www/moodle/config.php');\n// The qbank_usage columns use (SELECT ...) UNION (SELECT ...), which SQLite\n// rejects, so the Usage column shows 'Error reading from database'.\n\\core\\plugininfo\\qbank::enable_plugin('usage', 0);\necho \"Disabled qbank_usage.\\n\";\n"
+    },
+    {
+      "step": "runPhpCode",
+      "code": "if (!defined('CLI_SCRIPT')) { define('CLI_SCRIPT', true); }\nrequire('/www/moodle/config.php');\nrequire_once($CFG->dirroot . '/lib/questionlib.php');\nrequire_once($CFG->dirroot . '/question/format/xml/format.php');\ntry {\n    global $DB, $USER;\n    $USER = get_admin();\n\n    $course = $DB->get_record('course', ['shortname' => 'BULKTAGS01']);\n    if (!$course) {\n        throw new \\RuntimeException(\"Course 'BULKTAGS01' was not found.\");\n    }\n\n    $questionbanks = $DB->get_records('qbank', ['course' => $course->id]);\n    if (count($questionbanks) !== 1) {\n        throw new \\RuntimeException(\"Expected one question bank for course 'BULKTAGS01'; found \" . count($questionbanks) . '.');\n    }\n    $questionbank = reset($questionbanks);\n    $questionbankcm = get_coursemodule_from_instance('qbank', $questionbank->id, $course->id);\n    if (!$questionbankcm) {\n        throw new \\RuntimeException(\"The course-module record for the 'BULKTAGS01' question bank was not found.\");\n    }\n    if ((int) $questionbankcm->id !== 1) {\n        throw new \\RuntimeException(\"The question bank must have course-module ID 1 for the configured landing page; found {$questionbankcm->id}.\");\n    }\n    $questionbankcontext = context_module::instance($questionbankcm->id);\n    $category = question_get_default_category($questionbankcontext->id, true);\n    if (!$category) {\n        throw new \\RuntimeException(\"The default question category for course 'BULKTAGS01' was not found or created.\");\n    }\n\n    // Skip the import if the demo questions are already present.\n    $existing = $DB->count_records_sql(\n        \"SELECT COUNT(1)\n           FROM {question} q\n           JOIN {question_versions} qv ON qv.questionid = q.id\n           JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid\n          WHERE qbe.questioncategoryid = :categoryid\n            AND \" . $DB->sql_like('q.name', ':name'),\n        ['categoryid' => $category->id, 'name' => 'bulktags-%']\n    );\n    if ($existing > 0) {\n        throw new \\RuntimeException('Demo questions already present, skipping import.');\n    }\n\n    $xml = <<<'BULKTAGSXML'\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<quiz>\n  <question type=\"truefalse\">\n    <name><text>bulktags-001 Capital of France</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>Paris is the capital of France.</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>true</text><feedback format=\"html\"><text></text></feedback></answer>\n    <answer fraction=\"0\" format=\"moodle_auto_format\"><text>false</text><feedback format=\"html\"><text></text></feedback></answer>\n    <tags><tag><text>geography</text></tag><tag><text>easy</text></tag></tags>\n  </question>\n  <question type=\"truefalse\">\n    <name><text>bulktags-002 Longest river</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>The Thames is the longest river in the world.</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <answer fraction=\"0\" format=\"moodle_auto_format\"><text>true</text><feedback format=\"html\"><text></text></feedback></answer>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>false</text><feedback format=\"html\"><text></text></feedback></answer>\n    <tags><tag><text>geography</text></tag></tags>\n  </question>\n  <question type=\"shortanswer\">\n    <name><text>bulktags-003 Chemical symbol for gold</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>What is the chemical symbol for gold?</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <usecase>0</usecase>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>Au</text><feedback format=\"html\"><text></text></feedback></answer>\n    <tags><tag><text>science</text></tag><tag><text>hard</text></tag></tags>\n  </question>\n  <question type=\"shortanswer\">\n    <name><text>bulktags-004 Planet nearest the sun</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>Which planet is nearest the sun?</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <usecase>0</usecase>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>Mercury</text><feedback format=\"html\"><text></text></feedback></answer>\n    <tags><tag><text>science</text></tag></tags>\n  </question>\n  <question type=\"truefalse\">\n    <name><text>bulktags-005 Water boils at 100C</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>At sea level, water boils at 100&deg;C.</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>true</text><feedback format=\"html\"><text></text></feedback></answer>\n    <answer fraction=\"0\" format=\"moodle_auto_format\"><text>false</text><feedback format=\"html\"><text></text></feedback></answer>\n  </question>\n  <question type=\"truefalse\">\n    <name><text>bulktags-006 Shakespeare wrote Hamlet</text></name>\n    <questiontext format=\"html\"><text><![CDATA[<p>William Shakespeare wrote Hamlet.</p>]]></text></questiontext>\n    <defaultgrade>1</defaultgrade>\n    <answer fraction=\"100\" format=\"moodle_auto_format\"><text>true</text><feedback format=\"html\"><text></text></feedback></answer>\n    <answer fraction=\"0\" format=\"moodle_auto_format\"><text>false</text><feedback format=\"html\"><text></text></feedback></answer>\n  </question>\n</quiz>\nBULKTAGSXML;\n\n    $tmpdir = make_request_directory();\n    $tmpfile = $tmpdir . '/bulktags.xml';\n    if (file_put_contents($tmpfile, $xml) === false) {\n        throw new \\RuntimeException('Could not write the temporary question import file.');\n    }\n    $qformat = new qformat_xml();\n    $qformat->setCategory($category);\n    $qformat->setContexts([$questionbankcontext]);\n    $qformat->setCourse($course);\n    $qformat->setFilename($tmpfile);\n    $qformat->setMatchgrades('error');\n    $qformat->setCatfromfile(false);\n    $qformat->setContextfromfile(false);\n    $qformat->setStoponerror(true);\n    $qformat->set_display_progress(false);\n    ob_start();\n    try {\n        $imported = $qformat->importpreprocess()\n            && $qformat->importprocess()\n            && $qformat->importpostprocess();\n    } finally {\n        ob_end_clean();\n    }\n    if (!$imported || count($qformat->questionids) !== 6) {\n        throw new \\RuntimeException('Moodle XML import did not create the six demo questions.');\n    }\n\n    echo \"Imported \" . count($qformat->questionids) . \" demo questions into question bank cmid={$questionbankcm->id}.\\n\";\n} catch (\\Throwable $e) {\n    fwrite(STDERR, 'Bulk tags demo provisioning failed: ' . $e->getMessage() . \"\\n\");\n}\n"
+    },
+    {
+      "step": "setLandingPage",
+      "path": "/question/edit.php?cmid=1"
+    }
+  ]
+}

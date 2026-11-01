@@ -1,6 +1,16 @@
 # moodle-qbank_bulktags
 ![PHP Support](https://img.shields.io/badge/php-8.1--8.3-blue)[![Moodle Plugin CI](https://github.com/marcusgreen/moodle-qbank_bulktags/actions/workflows/moodle-ci.yml/badge.svg)](https://github.com/marcusgreen/moodle-qtype_gapfill/actions/workflows/moodle-ci.yml)[![Moodle Support](https://img.shields.io/badge/moodle/Moodle-5.0+-orange)](https://github.com/marcusgreen/moodle-qbank_bulktags/actions)
 
+## Try in Moodle Playground
+
+Click the badge below to open this plugin instantly in
+[Moodle Playground](https://moodle-playground.com) — a full Moodle site
+running in the browser, with no local install. The demo boots into a
+question bank with six sample questions, some already tagged. Select
+questions and choose **Bulk tags** from the bulk actions to try it.
+
+<a href="https://moodle-playground.com/?blueprint-url=https://raw.githubusercontent.com/marcusgreen/moodle-qbank_bulktags/refs/heads/main/blueprint.json" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/ateeducacion/action-moodle-playground-pr-preview/refs/heads/main/assets/playground-preview-button.svg" alt="Preview in Moodle Playground" width="200"></a>
+
 This is a Moodle Question bank plugin to allow bulk updating of question tags.
 It was mainly created at MoodleDACH24 in Vienna. With thanks to Stephan Robotta
 https://github.com/srobotta for collaboration and inspiration.
